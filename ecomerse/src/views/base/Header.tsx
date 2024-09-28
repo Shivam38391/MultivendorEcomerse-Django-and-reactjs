@@ -1,4 +1,4 @@
-import { CircleUser, Menu, Package2, Search, ShoppingCart } from "lucide-react";
+import { Bell, BellDotIcon, CircleUser, CircleUserIcon, icons, LayoutDashboard, ListCheckIcon, ListOrdered, ListOrderedIcon, Menu, Package2, Search, Settings2, SettingsIcon, ShoppingCart } from "lucide-react";
 
 // import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,8 @@ import { useContext, useState } from "react";
 import { useAuthStore } from "@/store/auth";
 import { CartContext } from "../plugin/Context";
 import { Badge } from "@/components/ui/badge";
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
+import { FaProductHunt } from "react-icons/fa";
 
 export const description =
     "An application shell with a header and main content area. The header has a navbar, a search input and and a user nav dropdown. The user nav is toggled by a button with an avatar image. The main content area is divided into two rows. The first row has a grid of cards with statistics. The second row has a grid of cards with a table of recent transactions and a list of recent sales.";
@@ -42,40 +44,85 @@ export function Header() {
 
     }
 
-    const handleSearchSubmit = () => {
-        navigate(`/search?query=${search}`)
-    }
+
+    const handleKeyDown = (event: any) => {
+
+        if (event.key === 'Enter') {
+            console.log("search", search)
+            navigate(`/search?query=${search}`)
+
+        }
+    };
 
 
-    const Links = [
-
-
+    const AccountLinks = [
         {
-            label: "Dashboard",
-            path: "/",
+            label: "Account",
+            path: "/customer/account/",
+            icons: <CircleUserIcon/>
         },
-
-
         {
             label: "Order",
-            path: "/",
+            path: "/customer/orders/",
+            icons: <ListOrderedIcon/>
+
         },
         {
-            label: "Customer",
-            path: "/",
+            label: "Wishlist",
+            path: "/customer/wishlist/",
+            icons: <ListCheckIcon/>
+
         },
         {
-            label: "Analytics",
-            path: "/",
+            label: "Notifications",
+            path: "/customer/notifications/",
+            icons: <BellDotIcon/>
+
         },
+        {
+            label: "Settings",
+            path: "/customer/settings/",
+            icons: <SettingsIcon/>
 
-
+        },
     ]
 
 
+    const VendorLinks = [
+        {
+            label: "Dashboard",
+            path: "/vendor/dashboard",
+            icons: <LayoutDashboard/>
+        },
+        {
+            label: "Order",
+            path: "/vendor/orders/",
+            icons: <ListOrdered/>
+
+        },
+        {
+            label: "Add Products",
+            path: "/vendor/product/new/",
+            icons: <FaProductHunt/>
+
+        },
+        {
+            label: "Notifications",
+            path: "/vendor/notifications/",
+            icons: <Bell/>
+
+        },
+        {
+            label: "Settings",
+            path: "/vendor/settings/",
+            icons: <Settings2/>
+
+        },
+    ]
+
 
     return (
-        <div className="flex min-h-screen w-full flex-col  bg-pink-300">
+        <div className="flex w-full flex-col  bg-pink-300">
             <header className="sticky bg-black text-white top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
                 <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
 
@@ -94,36 +141,73 @@ export function Header() {
                         <Package2 className="h-6 w-6" />
                         <span className="sr-only">Acme Inc</span>
                     </Link>
-                    <Link
-                        to={"/"}
-                        className=" transition-colors hover:text-foreground"
-                    >
-                        Dashboard
-                    </Link>
-                    <Link
-                        to={"/"}
-                        className="text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                        Orders
-                    </Link>
-                    {
+                    <NavigationMenu>
+                        <NavigationMenuList>
+                            <NavigationMenuItem>
+                                <NavigationMenuTrigger className=" text-black" >Accounts</NavigationMenuTrigger>
+                                <NavigationMenuContent>
 
-                        Links.map((i, j) => (
-                            <NavLink
-                                className={({ isActive }) => {
-                                    return `flex items-center gap-3   transition-all   ${isActive && "bg-slate-700 text-white"}`;
-                                }}
-                                to={i.path}>
-
-                                {i.label}
-
-                            </NavLink>
-
-                        ))
-                    }
+                                    <ul className="grid w-[100px] gap-3 p-4 md:w-[200px]  lg:w-[300px]">
 
 
+                                        {
 
+                                            AccountLinks.map((i, j) => (
+                                                <NavigationMenuLink>
+
+                                                    <NavLink key={j}
+                                                        className={({ isActive }) => {
+                                                            return `flex items-center gap-3   transition-all   ${isActive && "bg-slate-700 text-white"}`;
+                                                        }}
+                                                        to={i.path}>
+
+                                                            {i.icons}
+                                                        {i.label}
+
+                                                    </NavLink>
+                                                </NavigationMenuLink>
+
+
+                                            ))
+                                        }
+
+                                    </ul>
+
+
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
+                        </NavigationMenuList>
+                    </NavigationMenu>
+ 
+
+
+                    <NavigationMenu>
+                        <NavigationMenuList>
+                            <NavigationMenuItem>
+                                <NavigationMenuTrigger className=" text-black" >Vendor</NavigationMenuTrigger>
+                                <NavigationMenuContent>
+                                    <ul className="grid w-[100px] gap-3 p-4 md:w-[200px]  lg:w-[300px]">
+                                        {
+                                            VendorLinks.map((i, j) => (
+                                                <NavigationMenuLink>
+                                                    <NavLink key={j}
+                                                        className={({ isActive }) => {
+                                                            return `flex items-center gap-3   transition-all   ${isActive && "bg-slate-700 text-white"}`;
+                                                        }}
+                                                        to={i.path}>
+                                                            {i.icons}
+    
+                                                        {i.label}
+                                                    </NavLink>
+                                                </NavigationMenuLink>
+                                            ))
+                                        }
+                                    </ul>
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
+                        </NavigationMenuList>
+                    </NavigationMenu>
+ 
 
 
 
@@ -249,6 +333,7 @@ export function Header() {
                         <div className="relative">
                             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
+                                onKeyDown={handleKeyDown}
                                 onChange={handleSearchChange}
                                 type="search"
                                 placeholder="Search products..."
