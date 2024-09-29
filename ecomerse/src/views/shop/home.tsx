@@ -28,7 +28,7 @@ type Logintype ={
 
 const LoggedInView = ({ user }: Logintype ) => {
 
-  console.log(user)
+  console.log( "Loged",user)
 
   return (
     <div>
@@ -39,10 +39,13 @@ const LoggedInView = ({ user }: Logintype ) => {
 
 // This is a functional component named 'LoggedOutView,' which has an optional 'title' prop.
 export const LoggedOutView = ({ title = 'Home' }  ) => {
+
+    console.log("Logged Out")
+
   return (
-    <div>
+    <>
       <Products />
-    </div>
+    </>
   );
 };
 

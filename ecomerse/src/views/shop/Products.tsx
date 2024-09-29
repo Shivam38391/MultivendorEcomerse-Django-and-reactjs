@@ -40,7 +40,7 @@ function Products() {
 
     // Pagination
     // Define the number of items to be displayed per page
-    const itemsPerPage = 6;
+    const itemsPerPage = 3;
 
     // State hook to manage the current page being displayed
     const [currentPage, setCurrentPage] = useState(1);
