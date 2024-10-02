@@ -16,10 +16,15 @@ const apiInstance = axios.create({
 
 
 
+export default apiInstance;
 
 export const categoryApi = async () => {
     return apiInstance.get("category/");
 }
 
 
-export default apiInstance;
+
+export const productsApi = async () => {
+    return apiInstance.get("products/");
+}
+

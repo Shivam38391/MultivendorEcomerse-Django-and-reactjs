@@ -10,6 +10,8 @@ import CartID from '../plugin/cartID';
 import { addToCart } from '../plugin/addToCart';
 import { addToWishlist } from '../plugin/addToWishlist';
 import { CartContext } from '../plugin/Context';
+import { Category } from './Productspage/Category/Category';
+import { Featured } from './Productspage/FeaturedProducts/Featured';
 
 function Products() {
 
@@ -206,28 +208,10 @@ function Products() {
                 <div>
                     <main className="mt-5">
                         <div className="container">
-                            <section className="text-center container">
-                                <div className="row mt-4 mb-3">
-                                    <div className="col-lg-6 col-md-8 mx-auto">
-                                        <h1 className="fw-light">Hot Category🔥</h1>
-                                        <p className="lead text-muted">
-                                            Our Latest Categories
-                                        </p>
-                                    </div>
-                                </div>
-                            </section>
-                            <div className="d-flex justify-content-center">
-                                {category.map((c, index) => (
-                                    <div className="align-items-center d-flex flex-column" style={{ background: "#e8e8e8", marginLeft: "10px", borderRadius: "10px", padding: "30px" }}>
-                                        <img src={c.image}
-                                            alt=""
-                                            style={{ width: "80px", height: "80px", objectFit: "cover" }}
-                                        />
-                                        <p><a href="" className='text-dark'>{c.title}</a></p>
-                                    </div>
-                                ))}
 
-                            </div>
+                            <Category/>
+
+                            <Featured/>
 
                             <section className="text-center container">
                                 <div className="row mt-4 mb-3">
