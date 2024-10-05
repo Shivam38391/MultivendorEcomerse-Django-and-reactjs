@@ -1,3 +1,6 @@
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import apiInstance from '@/utils/axios';
 import { productsApi } from '@/utils/Https/apicalls';
 import Addon from '@/views/plugin/Addon';
@@ -8,6 +11,7 @@ import { CartContext } from '@/views/plugin/Context';
 import GetCurrentAddress from '@/views/plugin/UserCountry';
 import UserData from '@/views/plugin/UserData';
 import { useQuery } from '@tanstack/react-query';
+import { Heart, ShoppingCart } from 'lucide-react';
 import React, { useContext, useState } from 'react'
 import { FaCheckCircle, FaShoppingCart, FaSpinner } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
@@ -35,7 +39,7 @@ export const Featured = () => {
     const [qtyValue, setQtyValue] = useState(1)
     let [cartCount, setCartCount] = useContext(CartContext);
 
-    
+
 
 
     // Pagination
@@ -72,7 +76,7 @@ export const Featured = () => {
 
 
 
-        
+
     const handleColorButtonClick = (event, product_id, colorName, colorImage) => {
         setColorValue(colorName);
         setColorImage(colorImage);
@@ -159,9 +163,9 @@ export const Featured = () => {
     const { isPending, data, isError, error } = useQuery({ queryKey: ['Products'], queryFn: productsApi })
 
     if (isPending) return <div>Loading...</div>
-  
+
     if (isError) return <div>Error: {error.message}</div>
-  
+
 
 
     return (
@@ -334,6 +338,67 @@ export const Featured = () => {
                     ))}
                 </div>
             </section>
+
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
+                {data.data.map((product, index) => (
+                    <Card key={product.id} className="flex flex-col justify-between">
+                        <CardContent className="p-4">
+                            <div className="relative aspect-square mb-4">
+                                <Link to={`/detail/${product.slug}`}>
+                                    <img
+                                        src={(selectedProduct === product.id && colorImage) ? colorImage : product.image}
+                                        className="  object-cover  h-full "
+                                    />
+                                </Link>
+                                <Button size="icon" variant="secondary" className="absolute top-2 right-2 rounded-full">
+                                    <Heart className="h-4 w-4" />
+                                    <span className="sr-only">Add to favorites</span>
+                                </Button>
+                            </div>
+
+                            <Link to={`/detail/${product.slug}`}
+                                className="">
+                                <h5 className="font-semibold text-lg mb-2  capitalize">{product.title.slice(0, 30)}...</h5>
+                            </Link>
+
+                            <div className="flex justify-between items-center">
+                                <p className="text-primary font-bold">${product.price}</p>
+                                {/* <Badge variant="secondary">{categories.find(c => c.id === product.category)?.name}</Badge> */}
+
+
+                                <Badge variant="outline">
+                                    By:
+                                    <Link className=' ml-2 ' to={`/vendor/${product?.vendor?.slug}`}>
+                                        {product.vendor.name}
+                                    </Link>
+                                </Badge>
+
+                                <Link to="/" className="  bg-black"><p>{product?.brand.title}</p></Link>
+
+
+
+                            </div>
+                        </CardContent>
+                        <CardFooter className="p-4">
+                            <Button className="w-full">
+                                <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
+                            </Button>
+                        </CardFooter>
+                    </Card>
+                ))}
+            </div>
+
+
+
+
+
+
+
+
+
+
+
             <nav className='d-flex  gap-1 pt-2'>
                 <ul className='pagination'>
                     <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
